@@ -1,0 +1,72 @@
+.ui-corner-all
+{
+	border-radius: 4px 4px 4px 4px;
+}
+
+
+.ui-widget-content
+{
+	color: #fff;
+}
+
+.ui-widget
+{
+	font-family: "Open Sans", sans-serif;
+	font-size: 17px;
+}
+
+.ui-menu
+{
+	display: block;
+	float: left;
+	list-style: none outside none;
+	margin: 0;
+	padding: 2px;
+}
+
+.ui-autocomplete
+{
+	cursor: default;
+	position: absolute;
+}
+
+.ui-menu .ui-menu-item
+{
+	clear: left;
+	float: left;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+
+
+.ui-menu .ui-menu-item a
+{
+	display: block;
+	padding: 3px 3px 3px 3px;
+	text-decoration: none;
+	cursor: pointer;
+	color: #00b4ff;
+}
+
+.ui-menu .ui-menu-item a:hover
+{
+	display: block;
+	padding: 3px 3px 3px 3px;
+	text-decoration: none;
+	color: #087eb0;
+	cursor: pointer;
+	background-image: none;
+	background-color: none;
+}
+
+.ui-widget-content a
+{
+	background-color: none;
+}
+
+.ui-widget-header .ui-state-focus, .ui-widget-header .ui-state-active, .ui-widget-header .ui-state-highlight {
+	background-image: none;
+	background-color: #fff;
+}

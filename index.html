@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>pcbih: trazilica za pc komponente u Bosni i Hercegovini</title>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.js"></script>
+<link rel="stylesheet" href="css/style_main.css">
+<link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+<script src="js/jquery.tablesorter.min.js"></script>
+<script type="text/javascript">
+function SortTableByPrice()
+{	
+	var resort = true;
+    $("#maintable").trigger("update", [resort]);
+	var sorting = [[1,0]];
+    $("#maintable").trigger("sorton", [sorting]);
+}
+
+jQuery(document).ready(function($) 
+{		
+	$("#maintable").tablesorter();
+
+	$("#searchForm").submit(function(ev)
+	{
+		ev.preventDefault();
+		var query = $("#search").val();
+		
+		if(query != "" && query.length >= 3)
+		{		
+		$("#maintable tbody").html("");	
+			$("#linkovi > input").each(function(i, vendor) 
+			{
+				if($(vendor).prop("checked") == true)
+				{
+					var vendorName = $(vendor).attr("name");
+					
+					$loadDiv = $("<div class='loadDiv' id='loadDiv_" + vendorName + "'><img src='img/loading.gif' width='16' height='16' alt='Loading'/><span class='loadingMsg'>Loading " + vendorName + "...</span>");
+					$loadDiv.hide();
+					$("#linkovi").append($loadDiv);
+					$loadDiv.show(350);
+					
+					$.getJSON( "crawl/index.php", 
+					{
+						vendor: vendorName,
+						query: query
+					},
+					function(data) 
+					{					
+						$.each(data, function(i, product) 
+						{
+							$newRow = $("<tr><td><a target='_blank' href='" + product.link + "'>" + product.name + "</a></td><td>" + product.price + "</td><td>" + product.site + "</td></tr>");
+							$("#maintable tbody").append($newRow);
+						});
+						
+						$("#loadDiv_" + vendorName).hide(350, function() { $("#loadDiv_" + vendorName).remove(); });
+						SortTableByPrice();
+					});
+				}
+			});
+		}
+		else
+		{
+			alert("Pojam mora biti dug najmanje 3 slova ;/");
+		}
+	});
+});
+</script>
+</head>
+<body>
+<div class="inner">
+	<div id="searchbox">
+		<div id="logo"> <a href="/pcbih"> <img src="img/logo.png" width="289" height="56" alt="minifilm"> </a></div>
+		<form id="searchForm">
+			<input id="search" type="text">
+		</form>
+	</div>
+	<div id="linkovi">
+		<input type="checkbox" name="plus" checked="true">
+		plus.ba |
+		<input type="checkbox" name="winwin" checked="true">
+		winwin.ba |
+		<input type="checkbox" name="imtec" checked="true">
+		imtec.ba |
+		<input type="checkbox" name="ingel" checked="true">
+		ingel.ba |
+		<input type="checkbox" name="ue" checked="true">
+		ue.ba  |
+		<input type="checkbox" name="genelec" checked="true">
+		genelec.ba <br>
+		<br>
+	</div>
+</div>
+<table id="maintable">
+	<thead>
+		<tr>
+			<th>Naziv</th>
+			<th>Cijena (KM)</th>
+			<th>Radnja</th>
+		</tr>
+	</thead>
+	<tbody>
+	</tbody>
+</table>
+</body>
+</html>
