@@ -9,6 +9,7 @@ require "crawlers/imtec_ba.php";
 require "crawlers/ingel_ba.php";
 require "crawlers/ue_ba.php";
 require "crawlers/genelec_ba.php";
+require "crawlers/imel_ba.php";
 
 use GuzzleHttp\Exception\RequestException;
 use Goutte\Client;
@@ -35,6 +36,8 @@ if(isset($_GET['vendor']) && isset($_GET['query']))
         Crawl_Ue_ba($client, $products, $query);
     else if($vendor == "genelec")
         Crawl_Genelec_ba($client, $products, $query);
+    else if($vendor == "imel")
+        Crawl_Imel_ba($client, $products, $query);
     
     echo json_encode($products);
 }
